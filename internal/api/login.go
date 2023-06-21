@@ -1,6 +1,8 @@
 package api
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,5 +20,10 @@ func NewLoginHandler(router *gin.Engine) {
 }
 
 func (*LoginHandler) Login(c *gin.Context) {
+	var binding LoginBinding
+	if err := c.ShouldBindJSON(&binding); err != nil {
+		c.Status(http.StatusBadRequest)
+		return
+	}
 
 }

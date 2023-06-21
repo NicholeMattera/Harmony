@@ -1,6 +1,8 @@
 package api
 
 import (
+	"net/http"
+
 	"github.com/NicholeMattera/Harmony/internal/api/middleware"
 	"github.com/gin-gonic/gin"
 )
@@ -24,6 +26,11 @@ func NewUserHandler(routerGroup *gin.RouterGroup) {
 }
 
 func (*UserHandler) Create(c *gin.Context) {
+	var binding UserBinding
+	if err := c.ShouldBindJSON(&binding); err != nil {
+		c.Status(http.StatusBadRequest)
+		return
+	}
 
 }
 
@@ -40,5 +47,10 @@ func (*UserHandler) Take(c *gin.Context) {
 }
 
 func (*UserHandler) Update(c *gin.Context) {
+	var binding UserBinding
+	if err := c.ShouldBindJSON(&binding); err != nil {
+		c.Status(http.StatusBadRequest)
+		return
+	}
 
 }

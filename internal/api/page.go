@@ -1,6 +1,8 @@
 package api
 
 import (
+	"net/http"
+
 	"github.com/NicholeMattera/Harmony/internal/api/middleware"
 	"github.com/gin-gonic/gin"
 )
@@ -24,7 +26,11 @@ func NewPageHandler(routerGroup *gin.RouterGroup) {
 }
 
 func (*PageHandler) Create(c *gin.Context) {
-
+	var binding PageBinding
+	if err := c.ShouldBindJSON(&binding); err != nil {
+		c.Status(http.StatusBadRequest)
+		return
+	}
 }
 
 func (*PageHandler) Delete(c *gin.Context) {
@@ -40,5 +46,10 @@ func (*PageHandler) Take(c *gin.Context) {
 }
 
 func (*PageHandler) Update(c *gin.Context) {
+	var binding PageBinding
+	if err := c.ShouldBindJSON(&binding); err != nil {
+		c.Status(http.StatusBadRequest)
+		return
+	}
 
 }

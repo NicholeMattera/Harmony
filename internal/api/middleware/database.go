@@ -2,12 +2,15 @@ package middleware
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
+
+var DatabaseKey = "db"
 
 func Database(c *gin.Context) {
 	if username, usernameExists := os.LookupEnv("HARMONY_DB_USERNAME"); !usernameExists {
@@ -21,6 +24,11 @@ func Database(c *gin.Context) {
 	} else if db, err := gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@tcp(%s)/%s", username, password, host, name)), &gorm.Config{}); err != nil {
 		// TODO: Log DB Connection Error
 	} else {
-		c.Set("db", db)
+		c.Set(DatabaseKey, db)
+		c.Next()
+		return
 	}
+
+	c.Status(http.StatusInternalServerError)
+	c.Abort()
 }
