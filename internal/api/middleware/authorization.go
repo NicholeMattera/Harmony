@@ -2,32 +2,33 @@ package middleware
 
 import (
 	"net/http"
+	"os"
 
-	"github.com/NicholeMattera/Harmony/internal/model"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 var UserKey = "user"
 
 func Authorization(c *gin.Context) {
-	xsrf := c.GetHeader("X-Harmony-XSRF")
-	if xsrf == "" {
+	xsrfHeaderName, xsrfHeaderNameExists := os.LookupEnv("HARMONY_XSRF_HEADER_NAME")
+	if !xsrfHeaderNameExists {
+		xsrfHeaderName = "X-Harmony-XSRF"
+	}
+
+	sessionCookieName, sessionCookieNameExists := os.LookupEnv("HARMONY_SESSION_COOKIE_NAME")
+	if !sessionCookieNameExists {
+		sessionCookieName = "harmony_session_token"
+	}
+
+	xsrfHeader := c.GetHeader(xsrfHeaderName)
+	sessionCookie, err := c.Cookie(sessionCookieName)
+	if err != nil || xsrfHeader == "" || sessionCookie == "" {
 		c.Status(http.StatusUnauthorized)
 		c.Abort()
 		return
 	}
 
-	db := c.MustGet(DatabaseKey).(*gorm.DB)
+	// TODO: Authorize with XSRF and Session Token
 
-	user := model.User{Session: xsrf}
-	result := db.First(&user)
-	if result.Error != nil {
-		c.Status(http.StatusUnauthorized)
-		c.Abort()
-		return
-	}
-
-	c.Set(UserKey, user)
 	c.Next()
 }

@@ -25,5 +25,4 @@ func (*LoginHandler) Login(c *gin.Context) {
 		c.Status(http.StatusBadRequest)
 		return
 	}
-
 }
