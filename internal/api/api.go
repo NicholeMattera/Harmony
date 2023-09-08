@@ -20,7 +20,7 @@ type StandardObjectAuditing struct {
 
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
-	router.Use(middleware.Database)
+	router.Use(middleware.Database())
 	router.Use(middleware.Authorization)
 
 	// Frontend Routes
