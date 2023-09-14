@@ -1,4 +1,4 @@
-package middleware
+package http
 
 import (
 	"net/http"
@@ -6,8 +6,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-
-var UserKey = "user"
 
 func Authorization(c *gin.Context) {
 	xsrfHeaderName, xsrfHeaderNameExists := os.LookupEnv("HARMONY_XSRF_HEADER_NAME")

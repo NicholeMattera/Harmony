@@ -1,4 +1,4 @@
-package api
+package http
 
 import (
 	"net/http"
@@ -22,20 +22,7 @@ type RoleBinding struct {
 	Permissions      []PermissionBinding `json:"permissions"`
 }
 
-type RoleHandler struct{}
-
-func NewRoleHandler(routerGroup *gin.RouterGroup) {
-	roleHandler := &RoleHandler{}
-
-	roleRouterGroup := routerGroup.Group("/role")
-	roleRouterGroup.GET("/", roleHandler.List)
-	roleRouterGroup.GET("/:id", roleHandler.Take)
-	roleRouterGroup.POST("/", roleHandler.Create)
-	roleRouterGroup.PUT("/:id", roleHandler.Update)
-	roleRouterGroup.DELETE("/:id", roleHandler.Delete)
-}
-
-func (*RoleHandler) Create(c *gin.Context) {
+func (h *httpLayer) CreateRole(c *gin.Context) {
 	var binding RoleBinding
 	if err := c.ShouldBindJSON(&binding); err != nil {
 		c.Status(http.StatusBadRequest)
@@ -44,19 +31,19 @@ func (*RoleHandler) Create(c *gin.Context) {
 
 }
 
-func (*RoleHandler) Delete(c *gin.Context) {
+func (h *httpLayer) DeleteRole(c *gin.Context) {
 
 }
 
-func (*RoleHandler) List(c *gin.Context) {
+func (h *httpLayer) ListRoles(c *gin.Context) {
 
 }
 
-func (*RoleHandler) Take(c *gin.Context) {
+func (h *httpLayer) TakeRole(c *gin.Context) {
 
 }
 
-func (*RoleHandler) Update(c *gin.Context) {
+func (h *httpLayer) UpdateRole(c *gin.Context) {
 	var binding RoleBinding
 	if err := c.ShouldBindJSON(&binding); err != nil {
 		c.Status(http.StatusBadRequest)

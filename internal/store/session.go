@@ -1,4 +1,4 @@
-package model
+package store
 
 import (
 	"time"
@@ -12,4 +12,8 @@ type Session struct {
 	UserId		uint		`gorm:"not null"`
 	Xsrf		string		`gorm:"not null;size:36;index:idx_session_lookup"`
 	User		User
+}
+
+func (s *storeLayer) CreateSession(ipAddress string, userId uint) (Session, error) {
+    return Session{}, nil
 }

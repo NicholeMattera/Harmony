@@ -1,17 +1,15 @@
 package main
 
 import (
-	"os"
-
-	"github.com/NicholeMattera/Harmony/internal/api"
+	"github.com/NicholeMattera/Harmony/internal/app"
+	"github.com/NicholeMattera/Harmony/internal/http"
+	"github.com/NicholeMattera/Harmony/internal/store"
 )
 
 func main() {
-	r := api.SetupRouter()
+    storeLayer := store.New()
+	appLayer := app.New(storeLayer)
+	httpLayer := http.New(appLayer)
 
-	if addr, addrExists := os.LookupEnv("HARMONY_LISTEN_ADDR"); !addrExists {
-		r.Run("0.0.0.0:8080")
-	} else {
-		r.Run(addr)
-	}
+	httpLayer.Run()
 }

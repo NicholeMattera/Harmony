@@ -1,4 +1,4 @@
-package api
+package http
 
 import (
 	"net/http"
@@ -11,15 +11,7 @@ type LoginBinding struct {
 	Password string `json:"password"`
 }
 
-type LoginHandler struct{}
-
-func NewLoginHandler(router *gin.Engine) {
-	loginHandler := &LoginHandler{}
-
-	router.POST("/login", loginHandler.Login)
-}
-
-func (*LoginHandler) Login(c *gin.Context) {
+func (h *httpLayer) Login(c *gin.Context) {
 	var binding LoginBinding
 	if err := c.ShouldBindJSON(&binding); err != nil {
 		c.Status(http.StatusBadRequest)

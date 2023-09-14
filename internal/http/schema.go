@@ -1,4 +1,4 @@
-package api
+package http
 
 import (
 	"net/http"
@@ -26,20 +26,7 @@ type SchemaBinding struct {
 	Fields            []FieldBinding `json:"fields"`
 }
 
-type SchemaHandler struct{}
-
-func NewSchemaHandler(routerGroup *gin.RouterGroup) {
-	schemaHandler := &SchemaHandler{}
-
-	schemaRouterGroup := routerGroup.Group("/schema")
-	schemaRouterGroup.GET("/", schemaHandler.List)
-	schemaRouterGroup.GET("/:id", schemaHandler.Take)
-	schemaRouterGroup.POST("/", schemaHandler.Create)
-	schemaRouterGroup.PUT("/:id", schemaHandler.Update)
-	schemaRouterGroup.DELETE("/:id", schemaHandler.Delete)
-}
-
-func (*SchemaHandler) Create(c *gin.Context) {
+func (h *httpLayer) CreateSchema(c *gin.Context) {
 	var binding SchemaBinding
 	if err := c.ShouldBindJSON(&binding); err != nil {
 		c.Status(http.StatusBadRequest)
@@ -47,19 +34,19 @@ func (*SchemaHandler) Create(c *gin.Context) {
 	}
 }
 
-func (*SchemaHandler) Delete(c *gin.Context) {
+func (h *httpLayer) DeleteSchema(c *gin.Context) {
 
 }
 
-func (*SchemaHandler) List(c *gin.Context) {
+func (h *httpLayer) ListSchemas(c *gin.Context) {
 
 }
 
-func (*SchemaHandler) Take(c *gin.Context) {
+func (h *httpLayer) TakeSchema(c *gin.Context) {
 
 }
 
-func (*SchemaHandler) Update(c *gin.Context) {
+func (h *httpLayer) UpdateSchema(c *gin.Context) {
 	var binding SchemaBinding
 	if err := c.ShouldBindJSON(&binding); err != nil {
 		c.Status(http.StatusBadRequest)

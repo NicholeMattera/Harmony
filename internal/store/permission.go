@@ -1,4 +1,4 @@
-package model
+package store
 
 type PermissionFlag uint8
 

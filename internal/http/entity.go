@@ -1,4 +1,4 @@
-package api
+package http
 
 import (
 	"net/http"
@@ -21,21 +21,7 @@ type EntityBinding struct {
 	Slug           string              `json:"slug"`
 }
 
-type EntityHandler struct{}
-
-func NewEntityHandler(routerGroup *gin.RouterGroup) {
-	entityHandler := &EntityHandler{}
-
-	entityRouterGroup := routerGroup.Group("/entity")
-	entityRouterGroup.GET("/", entityHandler.List)
-	entityRouterGroup.GET("/:id", entityHandler.Take)
-	entityRouterGroup.GET("/slug/:slug", entityHandler.Take)
-	entityRouterGroup.POST("/", entityHandler.Create)
-	entityRouterGroup.PUT("/:id", entityHandler.Update)
-	entityRouterGroup.DELETE("/:id", entityHandler.Delete)
-}
-
-func (*EntityHandler) Create(c *gin.Context) {
+func (h *httpLayer) CreateEntity(c *gin.Context) {
 	var binding EntityBinding
 	if err := c.ShouldBindJSON(&binding); err != nil {
 		c.Status(http.StatusBadRequest)
@@ -43,23 +29,22 @@ func (*EntityHandler) Create(c *gin.Context) {
 	}
 }
 
-func (*EntityHandler) Delete(c *gin.Context) {
+func (h *httpLayer) DeleteEntity(c *gin.Context) {
 
 }
 
-func (*EntityHandler) List(c *gin.Context) {
+func (h *httpLayer) ListEntities(c *gin.Context) {
 
 }
 
-func (*EntityHandler) Take(c *gin.Context) {
+func (h *httpLayer) TakeEntity(c *gin.Context) {
 
 }
 
-func (*EntityHandler) Update(c *gin.Context) {
+func (h *httpLayer) UpdateEntity(c *gin.Context) {
 	var binding EntityBinding
 	if err := c.ShouldBindJSON(&binding); err != nil {
 		c.Status(http.StatusBadRequest)
 		return
 	}
-
 }
